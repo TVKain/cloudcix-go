@@ -3,7 +3,7 @@
 package constant
 
 import (
-	shimjson "github.com/stainless-sdks/cloudcix-go/internal/encoding/json"
+	shimjson "github.com/TVKain/cloudcix-go/internal/encoding/json"
 )
 
 type Constant[T any] interface {

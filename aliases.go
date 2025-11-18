@@ -3,8 +3,8 @@
 package cloudcix
 
 import (
-	"github.com/stainless-sdks/cloudcix-go/internal/apierror"
-	"github.com/stainless-sdks/cloudcix-go/packages/param"
+	"github.com/TVKain/cloudcix-go/internal/apierror"
+	"github.com/TVKain/cloudcix-go/packages/param"
 )
 
 // aliased to make [param.APIUnion] private when embedding

@@ -2,7 +2,7 @@ package apijson
 
 import (
 	"errors"
-	"github.com/stainless-sdks/cloudcix-go/packages/param"
+	"github.com/TVKain/cloudcix-go/packages/param"
 	"reflect"
 
 	"github.com/tidwall/gjson"
