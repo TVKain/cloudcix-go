@@ -2,7 +2,7 @@
 package json
 
 import (
-	"github.com/stainless-sdks/cloudcix-go/internal/encoding/json/shims"
+	"github.com/TVKain/cloudcix-go/internal/encoding/json/shims"
 	"reflect"
 	"time"
 )

@@ -7,7 +7,7 @@ package apijson
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stainless-sdks/cloudcix-go/packages/param"
+	"github.com/TVKain/cloudcix-go/packages/param"
 	"reflect"
 	"strconv"
 	"sync"

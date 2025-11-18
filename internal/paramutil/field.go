@@ -1,8 +1,8 @@
 package paramutil
 
 import (
-	"github.com/stainless-sdks/cloudcix-go/packages/param"
-	"github.com/stainless-sdks/cloudcix-go/packages/respjson"
+	"github.com/TVKain/cloudcix-go/packages/param"
+	"github.com/TVKain/cloudcix-go/packages/respjson"
 )
 
 func AddrIfPresent[T comparable](v param.Opt[T]) *T {

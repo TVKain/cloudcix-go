@@ -18,10 +18,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stainless-sdks/cloudcix-go/internal"
-	"github.com/stainless-sdks/cloudcix-go/internal/apierror"
-	"github.com/stainless-sdks/cloudcix-go/internal/apiform"
-	"github.com/stainless-sdks/cloudcix-go/internal/apiquery"
+	"github.com/TVKain/cloudcix-go/internal"
+	"github.com/TVKain/cloudcix-go/internal/apierror"
+	"github.com/TVKain/cloudcix-go/internal/apiform"
+	"github.com/TVKain/cloudcix-go/internal/apiquery"
 )
 
 func getDefaultHeaders() map[string]string {

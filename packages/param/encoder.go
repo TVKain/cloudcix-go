@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	shimjson "github.com/stainless-sdks/cloudcix-go/internal/encoding/json"
+	shimjson "github.com/TVKain/cloudcix-go/internal/encoding/json"
 
 	"github.com/tidwall/sjson"
 )

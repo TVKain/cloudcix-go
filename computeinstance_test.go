@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/cloudcix-go"
-	"github.com/stainless-sdks/cloudcix-go/internal/testutil"
-	"github.com/stainless-sdks/cloudcix-go/option"
+	"github.com/TVKain/cloudcix-go"
+	"github.com/TVKain/cloudcix-go/internal/testutil"
+	"github.com/TVKain/cloudcix-go/option"
 )
 
 func TestComputeInstanceNewWithOptionalParams(t *testing.T) {
