@@ -3,7 +3,7 @@
 package cloudcix
 
 import (
-	"github.com/stainless-sdks/cloudcix-go/option"
+	"github.com/TVKain/cloudcix-go/option"
 )
 
 // ComputeService contains methods and other services that help with interacting

@@ -2,7 +2,7 @@ package param
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/cloudcix-go/internal/encoding/json/sentinel"
+	"github.com/TVKain/cloudcix-go/internal/encoding/json/sentinel"
 	"reflect"
 )
 

@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/stainless-sdks/cloudcix-go/packages/param"
+	"github.com/TVKain/cloudcix-go/packages/param"
 )
 
 var encoders sync.Map // map[encoderEntry]encoderFunc

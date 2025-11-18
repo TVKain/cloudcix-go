@@ -1,4 +1,4 @@
-module github.com/stainless-sdks/cloudcix-go
+module github.com/TVKain/cloudcix-go
 
 go 1.22
 

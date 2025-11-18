@@ -2,8 +2,8 @@ package apijson_test
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/cloudcix-go/internal/apijson"
-	"github.com/stainless-sdks/cloudcix-go/packages/respjson"
+	"github.com/TVKain/cloudcix-go/internal/apijson"
+	"github.com/TVKain/cloudcix-go/packages/respjson"
 	"testing"
 )
 
