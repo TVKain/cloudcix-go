@@ -320,16 +320,46 @@ type ComputeBackupListParams struct {
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Filter the result to objects that do not match the specified filters. Possible
 	// filters are outlined in the individual list method descriptions.
-	Exclude any `query:"exclude,omitzero" json:"-"`
+	Exclude ComputeBackupListParamsExclude `query:"exclude,omitzero" json:"-"`
 	// Filter the result to objects that match the specified filters. Possible filters
 	// are outlined in the individual list method descriptions.
-	Search any `query:"search,omitzero" json:"-"`
+	Search ComputeBackupListParamsSearch `query:"search,omitzero" json:"-"`
 	paramObj
 }
 
 // URLQuery serializes [ComputeBackupListParams]'s query parameters as
 // `url.Values`.
 func (r ComputeBackupListParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+// Filter the result to objects that do not match the specified filters. Possible
+// filters are outlined in the individual list method descriptions.
+type ComputeBackupListParamsExclude struct {
+	paramObj
+}
+
+// URLQuery serializes [ComputeBackupListParamsExclude]'s query parameters as
+// `url.Values`.
+func (r ComputeBackupListParamsExclude) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+// Filter the result to objects that match the specified filters. Possible filters
+// are outlined in the individual list method descriptions.
+type ComputeBackupListParamsSearch struct {
+	paramObj
+}
+
+// URLQuery serializes [ComputeBackupListParamsSearch]'s query parameters as
+// `url.Values`.
+func (r ComputeBackupListParamsSearch) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,

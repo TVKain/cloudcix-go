@@ -110,11 +110,11 @@ func TestComputeBackupListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Compute.Backups.List(context.TODO(), cloudcix.ComputeBackupListParams{
-		Exclude: map[string]interface{}{},
+		Exclude: cloudcix.ComputeBackupListParamsExclude{},
 		Limit:   cloudcix.Int(0),
 		Order:   cloudcix.String("order"),
 		Page:    cloudcix.Int(0),
-		Search:  map[string]interface{}{},
+		Search:  cloudcix.ComputeBackupListParamsSearch{},
 	})
 	if err != nil {
 		var apierr *cloudcix.Error
