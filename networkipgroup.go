@@ -107,7 +107,7 @@ func (r *NetworkIPGroupService) List(ctx context.Context, query NetworkIPGroupLi
 // can be updated. Groups currently in use by firewall rules cannot be deleted.
 func (r *NetworkIPGroupService) Delete(ctx context.Context, pk int64, opts ...option.RequestOption) (err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	path := fmt.Sprintf("network/ip_groups/%v/", pk)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
 	return
