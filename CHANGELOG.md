@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1 (2025-11-19)
+
+Full Changelog: [v0.1.0...v0.1.1](https://github.com/TVKain/cloudcix-go/compare/v0.1.0...v0.1.1)
+
+### Bug Fixes
+
+* **client:** correctly specify Accept header with */* instead of empty ([7781209](https://github.com/TVKain/cloudcix-go/commit/77812090bbad2d396c60f39b6d73952fc7705161))
+
 ## 0.1.0 (2025-11-18)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/TVKain/cloudcix-go/compare/v0.0.1...v0.1.0)
