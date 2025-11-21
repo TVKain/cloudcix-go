@@ -37,6 +37,7 @@ func TestSettingsValidation(t *testing.T) {
 		CLOUDCIX_API_USERNAME: "test@example.com",
 		CLOUDCIX_API_PASSWORD: "testpass",
 		CLOUDCIX_API_KEY:      "testkey",
+		CLOUDCIX_REGION_ID:    1,
 	}
 
 	if err := validSettings.Validate(); err != nil {
@@ -57,6 +58,7 @@ func TestSettingsValidation(t *testing.T) {
 	invalidSettings2 := &config.Settings{
 		CLOUDCIX_API_USERNAME: "test@example.com",
 		CLOUDCIX_API_KEY:      "testkey",
+		CLOUDCIX_REGION_ID:    1,
 	}
 
 	if err := invalidSettings2.Validate(); err == nil {
@@ -67,9 +69,22 @@ func TestSettingsValidation(t *testing.T) {
 	invalidSettings3 := &config.Settings{
 		CLOUDCIX_API_USERNAME: "test@example.com",
 		CLOUDCIX_API_PASSWORD: "testpass",
+		CLOUDCIX_REGION_ID:    1,
 	}
 
 	if err := invalidSettings3.Validate(); err == nil {
 		t.Fatal("Settings without API key should fail validation")
+	}
+
+	// Test missing region ID
+	invalidSettings4 := &config.Settings{
+		CLOUDCIX_API_USERNAME: "test@example.com",
+		CLOUDCIX_API_PASSWORD: "testpass",
+		CLOUDCIX_API_KEY:      "testkey",
+		// CLOUDCIX_REGION_ID not set (defaults to 0)
+	}
+
+	if err := invalidSettings4.Validate(); err == nil {
+		t.Fatal("Settings without region ID should fail validation")
 	}
 }
