@@ -2,3 +2,48 @@
 codegen.log
 Brewfile.lock.json
 .idea/
+
+# Go binaries and build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+/dist/
+/build/
+
+# Compiled Go binaries from examples
+examples/auth_example
+examples/auth_verification  
+examples/project_creation_demo
+examples/settings_debug
+examples/auth_debug
+
+# Compiled binaries in root (from go run/build)
+auth_example
+auth_verification
+project_creation_demo
+settings_debug  
+auth_debug
+
+# Test binaries
+*.test
+
+# Coverage profiles
+*.out
+*.prof
+
+# IDE and editor files
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

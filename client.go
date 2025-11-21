@@ -4,10 +4,13 @@ package cloudcix
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"slices"
 
+	"github.com/TVKain/cloudcix-go/auth"
+	"github.com/TVKain/cloudcix-go/config"
 	"github.com/TVKain/cloudcix-go/internal/requestconfig"
 	"github.com/TVKain/cloudcix-go/option"
 )
@@ -16,11 +19,13 @@ import (
 // interacting with the cloudcix API. You should not instantiate this client
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
-	Options []option.RequestOption
-	Compute ComputeService
-	Network NetworkService
-	Project ProjectService
-	Storage StorageService
+	Options      []option.RequestOption
+	Compute      ComputeService
+	Network      NetworkService
+	Project      ProjectService
+	Storage      StorageService
+	tokenManager *auth.TokenManager
+	settings     *config.Settings
 }
 
 // DefaultClientOptions read from the environment (CLOUDCIX_API_KEY,
@@ -36,14 +41,65 @@ func DefaultClientOptions() []option.RequestOption {
 	return defaults
 }
 
-// NewClient generates a new client with the default option read from the
-// environment (CLOUDCIX_API_KEY, CLOUDCIX_BASE_URL). The option passed in as
-// arguments are applied after these default arguments, and all option will be
-// passed down to the services and requests that this client makes.
+// NewClient generates a new client with automatic authentication if credentials are available
 func NewClient(opts ...option.RequestOption) (r Client) {
-	opts = append(DefaultClientOptions(), opts...)
+	settings, _ := config.LoadSettings()
+	return NewClientWithSettings(settings, opts...)
+}
 
-	r = Client{Options: opts}
+// NewClientWithAuth creates a client with authentication credentials required
+func NewClientWithAuth(settingsFile ...string) (Client, error) {
+	settings, err := config.LoadSettings(settingsFile...)
+	if err != nil {
+		return Client{}, fmt.Errorf("failed to load settings: %w", err)
+	}
+	
+	if err := settings.Validate(); err != nil {
+		return Client{}, fmt.Errorf("authentication credentials required: %w", err)
+	}
+	
+	return NewClientWithSettings(settings), nil
+}
+
+// NewClientWithSettings creates a client with specific settings
+func NewClientWithSettings(settings *config.Settings, opts ...option.RequestOption) (r Client) {
+	if settings == nil {
+		settings, _ = config.LoadSettings()
+	}
+	
+	// Only validate and setup auto-auth if credentials are provided
+	if settings != nil && settings.CLOUDCIX_API_USERNAME != "" && settings.CLOUDCIX_API_PASSWORD != "" && settings.CLOUDCIX_API_KEY != "" {
+		// Create token manager for auto-auth
+		tokenManager := auth.NewTokenManager(settings)
+		
+		// Add auth middleware and compute API base URL
+		baseOpts := []option.RequestOption{
+			option.WithBaseURL(settings.ComputeURL()), // Use compute API URL
+			option.WithMiddleware(auth.AuthRetryMiddleware(tokenManager)),
+			auth.WithAutoAuth(tokenManager), // Auto-auth middleware
+		}
+		
+		opts = append(baseOpts, opts...)
+		
+		r = Client{
+			Options:      opts,
+			settings:     settings,
+			tokenManager: tokenManager,
+		}
+	} else {
+		// Fallback to old behavior for testing or when credentials are not available
+		defaultOpts := DefaultClientOptions()
+		if settings != nil && settings.CLOUDCIX_API_URL != "" {
+			defaultOpts = append(defaultOpts, option.WithBaseURL(settings.ComputeURL()))
+		}
+		
+		opts = append(defaultOpts, opts...)
+		
+		r = Client{
+			Options:  opts,
+			settings: settings,
+		}
+	}
 
 	r.Compute = NewComputeService(opts...)
 	r.Network = NewNetworkService(opts...)
@@ -51,6 +107,16 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	r.Storage = NewStorageService(opts...)
 
 	return
+}
+
+// NewClientFromFile creates a client using settings from a file
+func NewClientFromFile(settingsFile string, opts ...option.RequestOption) (Client, error) {
+	settings, err := config.LoadSettings(settingsFile)
+	if err != nil {
+		return Client{}, err
+	}
+	
+	return NewClientWithSettings(settings, opts...), nil
 }
 
 // Execute makes a request with the given context, method, URL, request params,
@@ -120,4 +186,19 @@ func (r *Client) Patch(ctx context.Context, path string, params any, res any, op
 // response.
 func (r *Client) Delete(ctx context.Context, path string, params any, res any, opts ...option.RequestOption) error {
 	return r.Execute(ctx, http.MethodDelete, path, params, res, opts...)
+}
+
+// RefreshToken manually refreshes the authentication token
+func (r *Client) RefreshToken(ctx context.Context) error {
+	if r.tokenManager == nil {
+		return fmt.Errorf("no token manager available - client was not created with authentication credentials")
+	}
+	r.tokenManager.InvalidateToken()
+	_, err := r.tokenManager.GetValidToken(ctx)
+	return err
+}
+
+// GetSettings returns the settings used to configure this client
+func (r *Client) GetSettings() *config.Settings {
+	return r.settings
 }
